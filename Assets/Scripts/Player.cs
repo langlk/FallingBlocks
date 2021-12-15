@@ -25,4 +25,10 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(-screenWrapPoint, transform.position.y);
         }
     }
+
+    void OnTriggerEnter2D(Collider2D triggerCollider) {
+        if (triggerCollider.tag == "Block") {
+            Destroy(gameObject);
+        }
+    }
 }
