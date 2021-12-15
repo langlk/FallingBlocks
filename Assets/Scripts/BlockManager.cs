@@ -6,6 +6,8 @@ public class BlockManager : MonoBehaviour
 {
     public GameObject fallingBlock;
     public float spawnInterval = 1;
+    public Vector2 sizeLimits = new Vector2(.3f, 3);
+    public float angleLimit = 20;
     float nextSpawnTime;
     Vector2 screenHalfSize;
 
@@ -20,9 +22,19 @@ public class BlockManager : MonoBehaviour
     {
         if (Time.time > nextSpawnTime) {
             nextSpawnTime = Time.time + spawnInterval;
-            Vector2 spawnPoint = new Vector2(Random.Range(-screenHalfSize.x, screenHalfSize.x), screenHalfSize.y + .5f);
-            Instantiate(fallingBlock, spawnPoint, Quaternion.identity);
+            SpawnBlock();
         }
         
+    }
+
+    void SpawnBlock() {
+        float blockSize = Random.Range(sizeLimits.x, sizeLimits.y);
+        float spawnAngle = Random.Range(-angleLimit, angleLimit);
+        Vector2 spawnPoint = new Vector2(Random.Range(-screenHalfSize.x, screenHalfSize.x), screenHalfSize.y + blockSize);
+        // spawn block
+        GameObject block = (GameObject) Instantiate(fallingBlock, spawnPoint, Quaternion.Euler(Vector3.forward * spawnAngle));
+
+        // Alter block's size
+        block.transform.localScale = Vector3.one * blockSize;
     }
 }
