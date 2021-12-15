@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class FallingBlock : MonoBehaviour
 {
-    float speed = 7;
+    public Vector2 speedRange = new Vector2(5, 13);
+    float speed;
+
+    void Start() {
+        speed = Mathf.Lerp(speedRange.x, speedRange.y, Difficulty.GetDifficultyPercent());
+    }
 
     // Update is called once per frame
     void Update()

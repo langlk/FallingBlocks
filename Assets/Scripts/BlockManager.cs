@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlockManager : MonoBehaviour
 {
     public GameObject fallingBlock;
-    public float spawnInterval = 1;
+    public Vector2 intervalMinMax = new Vector2(.3f, 1);
     public Vector2 sizeLimits = new Vector2(.3f, 3);
     public float angleLimit = 20;
     float nextSpawnTime;
@@ -21,6 +21,7 @@ public class BlockManager : MonoBehaviour
     void Update()
     {
         if (Time.time > nextSpawnTime) {
+            float spawnInterval = Mathf.Lerp(intervalMinMax.y, intervalMinMax.x, Difficulty.GetDifficultyPercent());
             nextSpawnTime = Time.time + spawnInterval;
             SpawnBlock();
         }
@@ -34,7 +35,7 @@ public class BlockManager : MonoBehaviour
         // spawn block
         GameObject block = (GameObject) Instantiate(fallingBlock, spawnPoint, Quaternion.Euler(Vector3.forward * spawnAngle));
 
-        // Alter block's size
+        // Alter block's size & speed
         block.transform.localScale = Vector3.one * blockSize;
     }
 }
