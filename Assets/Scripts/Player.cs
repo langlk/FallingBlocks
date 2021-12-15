@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed = 10;
+    public event System.Action OnPlayerDeath;
+
     float screenWrapPoint;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D triggerCollider) {
         if (triggerCollider.tag == "Block") {
+            if (OnPlayerDeath != null) OnPlayerDeath();
             Destroy(gameObject);
         }
     }
